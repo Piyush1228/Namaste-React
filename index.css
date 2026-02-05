@@ -1,3 +1,4 @@
+/* ===== Global Reset ===== */
 * {
   margin: 0;
   padding: 0;
@@ -6,33 +7,35 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: #f1f5f9;
+  background-color: #f1f5f9;
+  color: #1f2937;
 }
 
-/* Header */
+/* ===== Header ===== */
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 14px 40px;
-  background: linear-gradient(90deg, #ffffff, #f8fafc);
+  background-color: #ffffff;
   border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* Container */
 .container {
   display: flex;
   align-items: center;
 }
 
-/* Logo */
 .logo img {
   width: 60px;
-  height: auto;
+  height: 60px;
   object-fit: contain;
 }
 
-/* Navigation */
+/* ===== Navigation ===== */
 .nav ul {
   display: flex;
   list-style: none;
@@ -40,14 +43,13 @@ body {
 }
 
 .nav ul li {
-  font-size: 16px;
   cursor: pointer;
+  font-size: 16px;
   color: #374151;
   position: relative;
   transition: color 0.25s ease;
 }
 
-/* underline animation */
 .nav ul li::after {
   content: "";
   position: absolute;
@@ -59,88 +61,98 @@ body {
   transition: width 0.25s ease;
 }
 
-.nav ul li:hover::after {
-  width: 100%;
-}
-
 .nav ul li:hover {
   color: #2563eb;
 }
 
-/* Body */
+.nav ul li:hover::after {
+  width: 100%;
+}
+
+/* ===== Body ===== */
 .body {
-  padding: 28px;
+  padding: 30px 40px;
 }
 
-/* Search bar */
-.search {
-  margin-bottom: 28px;
-  padding: 10px 14px;
-  border: 1px solid #d1d5db;
-  width: 220px;
-  border-radius: 6px;
-  background-color: #ffffff;
-  transition: box-shadow 0.2s ease;
+/* ===== Filter Button ===== */
+.filter-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.search:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.filter-btn:hover {
+  background-color: #1e40af;
+  transform: translateY(-1px);
 }
 
-/* Cards container */
+/* ===== Restaurant Cards Container ===== */
 .res-container {
   display: flex;
   flex-wrap: wrap;
   gap: 26px;
 }
 
-/* Card */
+/* ===== Restaurant Card ===== */
 .res-card {
-  width: 200px;
-  padding: 12px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #ffffff, #f9fafb);
-  border: 1px solid #e5e7eb;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  width: 220px;
+  background-color: #ffffff;
+  border-radius: 14px;
   overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* glow effect */
-.res-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(37, 99, 235, 0.08),
-    transparent
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.res-card:hover::before {
-  opacity: 1;
-}
-
-/* Card hover */
 .res-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Restaurant image */
+/* ===== Restaurant Image (IMPORTANT FIX) ===== */
 .res-logo {
   width: 100%;
-  height: 135px;
-  object-fit: cover;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
+  aspect-ratio: 16 / 9;       /* ✅ Correct image ratio */
+  object-fit: cover;          /* ✅ Crops properly */
+  background-color: #e5e7eb;  /* fallback while loading */
 }
 
-.res-card:hover .res-logo {
-  transform: scale(1.05);
+/* ===== Card Content ===== */
+.res-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 12px 4px;
+}
+
+.res-card h4 {
+  font-size: 13px;
+  font-weight: 400;
+  padding: 2px 12px;
+  color: #6b7280;
+}
+
+.res-card h4:last-child {
+  padding-bottom: 12px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .body {
+    padding: 20px;
+  }
+
+  .res-container {
+    justify-content: center;
+  }
+
+  .res-card {
+    width: 100%;
+    max-width: 320px;
+  }
 }

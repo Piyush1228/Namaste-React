@@ -1,19 +1,35 @@
-const Rescard = (props) => {
-    const {resdata} = props;
-    const {name,cuisine,rating,delivery} = resdata?.restaurant
+import { CDN_URL } from "../utlis/constants";
+
+const FALLBACK_IMG =
+  "https://via.placeholder.com/508x320?text=No+Image";
+
+const Rescard = ({ resdata }) => {
+    const {
+        name,
+        cuisines = [],
+        avgRating,
+        sla = {},
+        cloudinaryImageId,
+    } = resdata?.info || {};
+
     return (
         <div className="res-card">
             <img
-              className="res-logo"
-              alt="res-logo"
-              src ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJZbqHQf_Ax8CfYvidvJYJ_fPUJ-G1q0FKww&s"
+                className="res-logo"
+                alt={name}
+                src={CDN_URL + cloudinaryImageId}
+                onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = FALLBACK_IMG;
+                }}
             />
-            <h3>{name}</h3>
-            <h4>{cuisine.join(", ")}</h4>
-            <h4>{rating.average}</h4>
-            <h4>{delivery.delivery_time}</h4>
 
+            <h3>{name}</h3>
+            <h4>{cuisines.join(", ")}</h4>
+            <h4>{avgRating} ⭐</h4>
+            <h4>{sla.deliveryTime} mins</h4>
         </div>
-    )
-}
+    );
+};
+
 export default Rescard;
