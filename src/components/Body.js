@@ -5,7 +5,7 @@ import Shrimmer from "./Shimmer";
 const Body = () => {
   const [ListofRestaurant, setListofRestaurant] = useState([]);
 
-  const [filteredRestaurent, setfilteredRestaurent] = useState([])
+  const [filteredRestaurent, setfilteredRestaurent] = useState([]);
 
   const [searchText, setSearchText] = useState("");
 
@@ -15,20 +15,24 @@ const Body = () => {
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.2237635&lng=75.8809701&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
+      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.1467143&lng=75.8406988&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
     );
 
     const json = await data.json();
-    console.log(json)
+    console.log(json);
+
+    const restaurantCard = json?.data?.cards.find(
+      (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants,
+    );
 
     const restaurants =
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants || [];
+      restaurantCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ||
+      [];
 
     const validRestaurants = restaurants.filter((res) => res?.info?.id);
 
     setListofRestaurant(validRestaurants);
-    setfilteredRestaurent(validRestaurants)
+    setfilteredRestaurent(validRestaurants);
   };
 
   return ListofRestaurant.length === 0 ? (
@@ -48,12 +52,13 @@ const Body = () => {
             />
             <button
               onClick={() => {
-                const filteredRestaurentName = ListofRestaurant.filter(
-                  (res) => res.info.name.toLowerCase().includes(searchText.toLowerCase())
+                const filteredRestaurentName = ListofRestaurant.filter((res) =>
+                  res.info.name
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase()),
                 );
-                
-                setfilteredRestaurent(filteredRestaurentName);
 
+                setfilteredRestaurent(filteredRestaurentName);
               }}
             >
               {" "}
@@ -64,8 +69,8 @@ const Body = () => {
         <button
           className="filter-btn"
           onClick={() => {
-            setListofRestaurant(
-              ListofRestaurant.filter((res) => res?.info?.avgRating > 4.3),
+            setfilteredRestaurent(
+              filteredRestaurent.filter((res) => res?.info?.avgRating > 4.3),
             );
           }}
         >
